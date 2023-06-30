@@ -137,6 +137,7 @@ class ModbusRtuFramer(ModbusFramer):
                 # if buffer is not yet long enough, populateHeader() raises IndexError
                 size = self.populateHeader()
             except IndexError:
+                Log.debug("Frame - [{}] Failed populateHeader ", self._buffer)
                 return False
 
         return len(self._buffer) >= size if size > 0 else False
@@ -236,6 +237,8 @@ class ModbusRtuFramer(ModbusFramer):
         if not isinstance(slave, (list, tuple)):
             slave = [slave]
         broadcast = not slave[0]
+        if broadcast:
+            Log.debug("processing broadcast packet", data)
         self.addToFrame(data)
         single = kwargs.get("single", False)
         skip_cur_frame = False

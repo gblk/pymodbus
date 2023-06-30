@@ -280,6 +280,9 @@ class ModbusTransactionManager:
         :param broadcast:
         :return: response
         """
+        # Log.debug("TRANSACT: ")
+        # Log.debug("RECV: Handle local echo ? {}", self.client.params.handle_local_echo)
+
         last_exception = None
         try:
             self.client.connect()
@@ -311,8 +314,8 @@ class ModbusTransactionManager:
                 )
                 self.client.state = ModbusTransactionState.WAITING_FOR_REPLY
             if (
-                hasattr(self.client, "handle_local_echo")
-                and self.client.handle_local_echo is True
+                # hasattr(self.client, "handle_local_echo")
+                self.client.params.handle_local_echo is True
             ):
                 if self._recv(size, full) != packet:
                     return b"", "Wrong local echo"
