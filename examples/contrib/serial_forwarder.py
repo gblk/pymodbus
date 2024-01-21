@@ -33,7 +33,9 @@ class SerialForwarderTCPServer:
     async def run(self):
         """Run the server"""
         port, baudrate, server_port, server_ip, slaves = get_commandline()
-        client = ModbusSerialClient(method="rtu", port=port, baudrate=baudrate)
+        client = ModbusSerialClient(
+            method="rtu", port=port, baudrate=baudrate, handle_local_echo=True
+        )
         message = f"RTU bus on {port} - baudrate {baudrate}"
         _logger.info(message)
         store = {}
